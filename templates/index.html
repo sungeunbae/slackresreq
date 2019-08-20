@@ -1,0 +1,92 @@
+<html>
+    
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- font awesome from BootstrapCDN
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  -->
+        <link href="{{url_for('static', filename='app.css')}}" type="text/css" rel="stylesheet">
+</head>
+<title>Reusable Form Demo</title>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message[1]}}</li>
+        {% endfor %}</ul>
+    {% endif %}
+{% endwith %}
+
+            <form action="" method="post">
+                {{form.csrf}}
+
+                <div class="input text">
+                    {{form.name.label}} <br> 
+                    {{ form.name(size=30, maxlength=50) }}<br>
+                
+                    {{form.project_title.label}} <br>
+
+                    {{form.project_title(rows='2', cols='80')}}<br>
+                
+                    {{form.comp_details.label}} <br>
+<p>
+Provide a brief summary of the intention of the analysis. If this is the first request for a new project provide some details (~100 words). <br>
+If this is an extension of a prior set of analyses provide specifics of what is different in this set of analyses from previous <br>
+(in terms of inputs considered, type/number of analyses to run, type/nature of outputs being obtained). (up to 200 words)
+
+</p>
+                    {{form.comp_details(rows='8', cols='80')}}<br>
+<p>
+    Provide the exact (rounded to 1000 hours) request for core hours.  
+    Also provide an approximate expectation for the duration over which you expect to use these hours. <br>
+    (for planning purposes only).
+</p>
+<h4>Core hour request:</h4>
+                    {{form.est_hours.label}} 
+                    {{form.est_hours(size=5)}} core hours<br>
+
+                    {{form.req_hours.label}}
+                    {{form.req_hours(size=5)}} core hours<br>
+
+                    {{form.duration.label}}
+                    {{form.duration(size=3)}} weeks<br>
+<p>
+    Provide the reasoning (and math) for your quantitative request above.  This should include structuted discussion of:
+    <ul>
+        <li>What is the computational cost of each calculation?</li>
+        <li>What is the predictive accuracy of your estimate of this computational cost? <br>
+        (is it based on a core hour prediction model – if so, how accurate is this)<br>
+        (is it based on empirical experience from past runs)
+        </li>
+        <li>How many sets analyses do you plan to run?</li>
+        <li>To what extent are you accounting for repeat analyses due to any errors etc requiring re-running of calculations?</li>
+    </ul>
+</p>
+                    {{form.justification.label}} <br>
+                    {{form.justification(rows='8', cols='80')}}<br>
+
+<h4>
+    Performance relative to past requests:
+</h4>
+                    {{form.last_reqed.label}}
+                    {{form.last_reqed(size=5)}} core hours<br>
+
+                    {{form.last_used.label}} 
+                    {{form.last_used(size=5)}} core hours<br>
+
+                    
+<p>
+     Comment how accurate was your forecasting, and how is any inaccuracy reflected in this justification?
+</p>                    
+                    {{form.usage_detail(rows='8', cols='80')}}<br>
+
+                </div>
+
+                <div class="input submit">
+                    <input type="submit" value="Submit"></div>
+            </form>
+
+</html>
