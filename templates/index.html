@@ -9,16 +9,11 @@
   -->
         <link href="{{url_for('static', filename='app.css')}}" type="text/css" rel="stylesheet">
 </head>
-<title>Reusable Form Demo</title>
+<title>HPC Core Hours Request</title>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{message[1]}}</li>
-        {% endfor %}</ul>
-    {% endif %}
-{% endwith %}
+<h1>
+    HPC Core Hours Request Form
+</h1>
 
             <form action="" method="post">
                 {{form.csrf}}
@@ -81,7 +76,7 @@ If this is an extension of a prior set of analyses provide specifics of what is 
 <p>
      Comment how accurate was your forecasting, and how is any inaccuracy reflected in this justification?
 </p>                    
-                    {{form.usage_detail(rows='8', cols='80')}}<br>
+                    {{form.usage_details(rows='8', cols='80')}}<br>
 
                 </div>
 

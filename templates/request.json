@@ -1,0 +1,70 @@
+{
+    "attachments": [
+        {
+            "fallback": "@brendon.bradley to approve",
+            "color": "#36a64f",
+            "pretext": "Core Hours Request from {{form.name}} (@brendon.bradley to approve)",
+            "author_name": "",
+            "author_link": "",
+            "author_icon": "",
+            "title": "Core Hours Request",
+            "title_link": "",
+            "text": "-------------------------",
+            "fields": [
+                {
+                    "title": "Project Title",
+                    "value": "{{form.project_title}}",
+                    "short": true
+                },
+				{
+					"title": "Submitted",
+                    "value": "{{form.date}}",
+                    "short": true
+				},
+				{
+					"title": "Computational Details",
+                    "value": "{{form.comp_details}}",
+                    "short": false
+				},
+				{
+					"title": "Estimated/Requested/Duration",
+                    "value": "{{form.est_hours}} chrs/{{form.req_hours}} chrs/{{form.duration}} weeks",
+                    "short": false
+				},
+				{
+					"title": "Request Justification",
+                    "value": "{{form.justification}}",
+                    "short": false
+				},
+				
+				{
+					"title": "Performance relative to past requests",
+                    "value": "Asked {{form.last_reqed}} chrs, Used {{form.last_used}} chrs\n{{form.usage_details}}",
+                    "short": false
+				}
+            ],
+            "image_url": "",
+            "thumb_url": "",
+            "footer": "QuakeCoRE SW",
+            "footer_icon": "https://wiki.canterbury.ac.nz/download/attachments/49416320/QuakeCore?version=2&modificationDate=1456716670850&api=v2",
+            "ts": "{{form.ts}}",
+            "actions": [
+                {
+                    "name": "decision",
+                    "text": "Approve",
+                    "style": "good",
+                    "type": "button",
+                    "value": "approve"
+                },
+                {
+                    "name": "decision",
+                    "text": "Decline",
+                    "style": "danger",
+                    "type": "button",
+                    "value": "maze"
+                }
+            ]
+        }
+    ],
+    "parse":"full"
+}

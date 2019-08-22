@@ -6,6 +6,7 @@ import requests
 import json
 from jinja2 import Template
 from datetime import date
+import time
 
 # App config.
 DEBUG = True
@@ -22,36 +23,15 @@ input_field_dict={'name':'SlackID',
 'justification':'Request Justification',
 'last_reqed':'Last Requested',
 'last_used':'How much used',
-'usage_detail':'Comments'}
+'usage_details':'Comments'}
 
 
-msg_template = '{"channel": "BMJGT2NR2", \
-    "blocks": [ {"type": "divider"}, \
-                {"type": "section", "text": {"type": "mrkdwn", "text": "You have a new request:\n*<https://uceqeng.slack.com/team/{{userid}}|{{form.name}} - HPC allocation request>*"}}, \
-                {"type": "section", "fields": [ \
-                                        {"type": "mrkdwn", "text": "*Project Title:*\n{{form.project_title}}"}, \
-                                        {"type": "mrkdwn", "text": "*When:*\nSubmitted {{form.date}}"} \
-                                    ]\
-                }, \
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Computational Details:*\n{{form.comp_details}}"}},\
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Estimated/Requested/Duration:*\n{{form.est_hours}} chrs/{{form.req_hours}} chrs/{{form.duration}} weeks"}},\
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Request Justification:*\n{{form.justification}}"}},\
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Last Asked/Used :*\n{{form.last_reqed}} chrs/{{form.last_used}} chrs"}},\
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Comment:*\n{{form.usage_detail}}"}},\
-                {"type": "actions", "elements": [ \
-                                            {"type": "button", "text": {"type": "plain_text", "emoji": true, "text": "Approve"}, "style": "primary", "value": "click_me_123"}, \
-                                            {"type": "button", "text": {"type": "plain_text", "emoji": true, "text": "Deny"}, "style": "danger", "value": "click_me_123"}\
-                                    ]\
-                },\
-                {"type": "divider"}\
-    ],\
-    "attachments":[\
-        {\
-            "color":"good"\
-        }\
-    ],\
-    "parse": "full"\
-}'
+
+with open('templates/request.json',"r") as f:
+    msg_template_json = json.load(f)
+msg_template = json.dumps(msg_template_json)
+
+#msg_template='{"attachments": [{"fallback": "@brendon.bradley to approve", "color": "#36a64f", "pretext": "@brendon.bradley got a new request", "author_name": "{{form.name}}", "author_link": "form.userlink", "author_icon": "form.userpic", "title": "Core Hours Request", "title_link": "", "text": "-------------------------", "fields": [{"title": "Project Title", "value": "{{form.project_title}}", "short": true}, {"title": "Submitted", "value": "{{form.date}}", "short": true}], "image_url": "", "thumb_url": "", "footer": "QuakeCoRE SW", "footer_icon": "https://wiki.canterbury.ac.nz/download/attachments/49416320/QuakeCore?version=2&modificationDate=1456716670850&api=v2", "ts": "form.ts"}], "parse":"full"}'
 
 class AttributeDict(dict): 
     __getattr__ = dict.__getitem__
@@ -69,7 +49,7 @@ class ReusableForm(Form):
     justification = TextAreaField()
     last_reqed = TextField()
     last_used = TextField()
-    usage_detail = TextAreaField()
+    usage_details = TextAreaField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -99,13 +79,14 @@ def send_to_slack():
 
     #print(form.errors)
     if request.method == 'POST':
-             
-        url = "https://hooks.slack.com/services/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"
+        
+        url = "https://hooks.slack.com/services/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"
         #form_dict = request.form.to_dict(flat=True)
         form_dict=AttributeDict()
         for key in request.form:
             form_dict[key] = request.form[key]
         form_dict['date']= date.today()
+        form_dict['ts']=time.time()
             
         headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
         
